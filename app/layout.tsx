@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Musée des Civilisations Noires",
   description: "Découvrez la richesse du patrimoine africain",
-    generator: 'v0.app'
+    generator: 'hackaton'
 }
 
 export default function RootLayout({

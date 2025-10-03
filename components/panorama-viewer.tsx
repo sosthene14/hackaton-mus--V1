@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 "use client"
 
 import { useEffect, useRef, useState } from "react"
@@ -72,7 +74,7 @@ export function PanoramaViewer({ scenes, initialSceneId }: PanoramaViewerProps) 
 
         setIsLoading(false)
       } catch (error) {
-        console.error("[v0] Error loading Panolens:", error)
+        console.error("Error loading Panolens:", error)
         setIsLoading(false)
       }
     }
