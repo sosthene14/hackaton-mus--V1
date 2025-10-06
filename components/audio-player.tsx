@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Play, Pause, Volume2, VolumeX } from "lucide-react"
@@ -9,45 +9,88 @@ import { useLanguage } from "@/lib/language-context"
 import { translations } from "@/lib/translations"
 
 interface AudioPlayerProps {
-  audioUrl?: string
+  description: string
   title: string
 }
 
-export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
+export function AudioPlayer({ description, title }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1)
   const [isMuted, setIsMuted] = useState(false)
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const [isPuterLoaded, setIsPuterLoaded] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const { language } = useLanguage()
   const t = translations[language]
 
+  // Check if Puter.js is loaded
   useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    const updateTime = () => setCurrentTime(audio.currentTime)
-    const updateDuration = () => setDuration(audio.duration)
-    const handleEnded = () => setIsPlaying(false)
-
-    audio.addEventListener("timeupdate", updateTime)
-    audio.addEventListener("loadedmetadata", updateDuration)
-    audio.addEventListener("ended", handleEnded)
-
-    return () => {
-      audio.removeEventListener("timeupdate", updateTime)
-      audio.removeEventListener("loadedmetadata", updateDuration)
-      audio.removeEventListener("ended", handleEnded)
+    const checkPuterLoaded = () => {
+      if (typeof window.puter !== "undefined") {
+        setIsPuterLoaded(true)
+      } else {
+        // Retry until Puter.js is loaded
+        const interval = setInterval(() => {
+          if (typeof window.puter !== "undefined") {
+            setIsPuterLoaded(true)
+            clearInterval(interval)
+          }
+        }, 100)
+        return () => clearInterval(interval)
+      }
     }
+    checkPuterLoaded()
   }, [])
 
+  // Generate audio when Puter.js is loaded
+  useEffect(() => {
+    if (!isPuterLoaded) return
+    if (!description) return
+
+    // Clean audio précédent
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+    }
+
+    const langCode =
+      language === "fr" ? "fr-FR" :
+      language === "en" ? "en-US" :
+      "fr-FR" // fallback Wolof → français
+const voice = langCode === "en-US" ? "Joanna" : "Lea"; // Use Léa for French
+    window.puter.ai
+      .txt2speech(description, {    voice: voice,
+    engine: "neural",
+    language: langCode, })
+      .then((audio: HTMLAudioElement) => {
+        audioRef.current = audio
+
+        audio.addEventListener("loadedmetadata", () => setDuration(audio.duration))
+        audio.addEventListener("timeupdate", () => setCurrentTime(audio.currentTime))
+        audio.addEventListener("ended", () => {
+          setIsPlaying(false)
+          setCurrentTime(0)
+        })
+
+      })
+      .catch((err: any) => console.error("Erreur Puter TTS :", err))
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [description, language, isPuterLoaded])
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause()
       } else {
-        audioRef.current.play()
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error)
+        })
       }
       setIsPlaying(!isPlaying)
     }
@@ -86,10 +129,14 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
-  if (!audioUrl) {
+  if (!isPuterLoaded || !audioRef.current) {
     return (
       <Card className="bg-muted/50">
-        <CardContent className="p-6 text-center text-muted-foreground">{t.common.audioNotAvailable}</CardContent>
+        <CardContent className="p-6 text-center text-muted-foreground">
+          {isPuterLoaded
+            ? t.common.audioNotAvailable
+            : "Loading Puter.js TTS..."}
+        </CardContent>
       </Card>
     )
   }
@@ -97,10 +144,14 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
   return (
     <Card>
       <CardContent className="p-6 space-y-4">
-        <audio ref={audioRef} src={audioUrl} preload="metadata" />
-
         <div className="flex items-center gap-4">
-          <Button size="icon" variant="outline" onClick={togglePlay} className="h-12 w-12 shrink-0 bg-transparent">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={togglePlay}
+            className="h-12 w-12 shrink-0 bg-transparent"
+            aria-label={isPlaying ? t.common.pause : t.common.play}
+          >
             {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </Button>
 
@@ -120,7 +171,13 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button size="icon" variant="ghost" onClick={toggleMute} className="h-8 w-8 shrink-0">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={toggleMute}
+            className="h-8 w-8 shrink-0"
+            aria-label={isMuted ? t.common.unmute : t.common.mute}
+          >
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
           <Slider

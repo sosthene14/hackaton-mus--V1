@@ -209,6 +209,15 @@ export default function ArtworkDetailPage() {
 
   const artwork = artworks.find((a) => a.id === params.id)
 
+const playTest = () => {
+  puter.ai.txt2speech("Hello, world! This is text-to-speech using Puter.js.")
+    .then((audio) => {
+        audio.play();
+    });
+}
+
+  
+
   if (!artwork) {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center">
@@ -327,10 +336,10 @@ export default function ArtworkDetailPage() {
             {/* Audio Player */}
             <div className="space-y-3">
               <h2 className="font-semibold text-xl">{t.artwork.listenDescription}</h2>
-              <AudioPlayer
-                audioUrl={artwork.audioUrl || "/sample-audio-description.mp3"}
-                title={artwork.title[language]}
-              />
+             <AudioPlayer
+  description={artwork.description[language]} // Pass description text
+  title={artwork.title[language]}
+/>
             </div>
 
             {/* QR Code Section - Desktop */}

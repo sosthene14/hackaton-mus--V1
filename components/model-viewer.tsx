@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 // ModelViewer.jsx
 import React from "react";
 import "@google/model-viewer"; // enregistre le web component

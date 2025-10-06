@@ -4,6 +4,8 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
 import { Navigation } from "@/components/navigation"
+import PuterLoader from "@/components/puter-loader"
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default function RootLayout({
       <body>
         <LanguageProvider>
           <Navigation />
+            <PuterLoader />
           {children}
         </LanguageProvider>
       </body>
