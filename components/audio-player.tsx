@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client"
 
 import { useState, useEffect, useRef } from "react"
@@ -7,6 +8,7 @@ import { Play, Pause, Volume2, VolumeX } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { useLanguage } from "@/lib/language-context"
 import { translations } from "@/lib/translations"
+import { useFetchVoice } from "./hooks/useFetchVoice"
 
 interface AudioPlayerProps {
   description: string
@@ -23,6 +25,7 @@ export function AudioPlayer({ description, title }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const { language } = useLanguage()
   const t = translations[language]
+  const { fetchAudio, isLoading } = useFetchVoice()
 
   // Check if Puter.js is loaded
   useEffect(() => {
@@ -44,45 +47,43 @@ export function AudioPlayer({ description, title }: AudioPlayerProps) {
   }, [])
 
   // Generate audio when Puter.js is loaded
-  useEffect(() => {
-    if (!isPuterLoaded) return
-    if (!description) return
+useEffect(() => {
+  const generateAudio = async () => {
+    try {
+      const voice = language === "fr" ? "fr-FR-BrigitteNeural" : language === "en" ? "en-US-JennyNeural" : "wo"
+      const res = await fetchAudio(description, voice)
 
-    // Clean audio précédent
+      if (!res || !res.ok) throw new Error("TTS request failed")
+
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const audio = new Audio(url)
+
+      audio.addEventListener("loadedmetadata", () => setDuration(audio.duration))
+      audio.addEventListener("timeupdate", () => setCurrentTime(audio.currentTime))
+      audio.addEventListener("ended", () => {
+        setIsPlaying(false)
+        setCurrentTime(0)
+      })
+
+      audioRef.current = audio
+    } catch (error) {
+      console.error("Erreur génération audio:", error)
+    }
+  }
+
+  generateAudio()
+
+  return () => {
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current = null
     }
+  }
+}, [description, language])
 
-    const langCode =
-      language === "fr" ? "fr-FR" :
-      language === "en" ? "en-US" :
-      "fr-FR" // fallback Wolof → français
-const voice = langCode === "en-US" ? "Joanna" : "Lea"; // Use Léa for French
-    window.puter.ai
-      .txt2speech(description, {    voice: voice,
-    engine: "neural",
-    language: langCode, })
-      .then((audio: HTMLAudioElement) => {
-        audioRef.current = audio
 
-        audio.addEventListener("loadedmetadata", () => setDuration(audio.duration))
-        audio.addEventListener("timeupdate", () => setCurrentTime(audio.currentTime))
-        audio.addEventListener("ended", () => {
-          setIsPlaying(false)
-          setCurrentTime(0)
-        })
 
-      })
-      .catch((err: any) => console.error("Erreur Puter TTS :", err))
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-    }
-  }, [description, language, isPuterLoaded])
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -129,17 +130,17 @@ const voice = langCode === "en-US" ? "Joanna" : "Lea"; // Use Léa for French
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
 
-  if (!isPuterLoaded || !audioRef.current) {
+  if (isLoading) {
     return (
       <Card className="bg-muted/50">
         <CardContent className="p-6 text-center text-muted-foreground">
-          {isPuterLoaded
-            ? t.common.audioNotAvailable
-            : "Loading Puter.js TTS..."}
+         Chargement de l'audio...
         </CardContent>
       </Card>
     )
   }
+
+ 
 
   return (
     <Card>

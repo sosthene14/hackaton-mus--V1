@@ -1,10 +1,10 @@
+//@ts-nocheck
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
 import { Navigation } from "@/components/navigation"
-import PuterLoader from "@/components/puter-loader"
 
 
 const inter = Inter({
@@ -34,7 +34,6 @@ export default function RootLayout({
       <body>
         <LanguageProvider>
           <Navigation />
-            <PuterLoader />
           {children}
         </LanguageProvider>
       </body>

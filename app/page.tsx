@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles, Globe, Headphones, Box } from "lucide-react"
 import Image from "next/image"
 import { QRScanner } from "@/components/qr-scanner"
+import { artworks } from "@/lib/artworks-data"
 
 export default function HomePage() {
   const { language } = useLanguage()
@@ -17,7 +18,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100 -z-10" />
-        <div className="absolute inset-0 bg-[url('/african-art-pattern-subtle-geometric.jpg')] opacity-5 -z-10" />
+        <div className="absolute inset-0 bg-[url('/https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-5 -z-10" />
 
         <div className="container px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -112,7 +113,7 @@ export default function HomePage() {
               {[1, 2, 3].map((i) => (
                 <div key={i} className="group relative aspect-[3/4] rounded-lg overflow-hidden bg-card border">
                   <Image
-                    src={`/african-art-museum-piece-.jpg?height=600&width=400&query=african+art+museum+piece+${i}`}
+                    src={`${artworks[i].imageUrl}`}
                     alt="Artwork preview"
                     fill
                     className="object-cover transition-transform group-hover:scale-105"
