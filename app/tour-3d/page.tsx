@@ -1,8 +1,10 @@
 "use client"
- 
-export default function Tour3DPage() {
+import { useEffect } from "react"
 
-  window.location.href = "https://deft-entremet-7f8a01.netlify.app"
- 
+export default function Tour3DPage() {
+  useEffect(() => {
+    window.location.href = "https://my.matterport.com/show/?m=JYjv6y7i5bS"
+  }, [])
+
   return null
 }
