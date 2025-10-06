@@ -8,131 +8,195 @@ import { ArrowRight, Sparkles, Globe, Headphones, Box } from "lucide-react"
 import Image from "next/image"
 import { QRScanner } from "@/components/qr-scanner"
 import { artworks } from "@/lib/artworks-data"
+import { useState, useEffect } from "react"
 
 export default function HomePage() {
   const { language } = useLanguage()
   const t = translations[language]
+  const [showSplash, setShowSplash] = useState(true)
+
+  // Hide splash screen after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <main className="flex flex-col ">
-      {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100 -z-10" />
-        <div className="absolute inset-0 bg-[url('/https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-5 -z-10" />
-
-        <div className="container px-4 py-16 md:py-24">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" />
-              <span>Expérience digitale immersive</span>
-            </div>
-
-            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight">
-              {t.hero.title}
+    <>
+      {/* Splash Screen */}
+      {showSplash && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-amber-100 via-orange-100 to-stone-200 animate-fadeOut">
+          <div className="absolute inset-0 bg-[url('https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-10" />
+          <div className="text-center space-y-6">
+        
+            <h1 className="font-serif text-4xl md:text-5xl font-bold text-primary">
+              {t.splash?.welcome || "Bienvenue au Musée des Civilisations Noires"}
             </h1>
-
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">{t.hero.subtitle}</p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button asChild size="lg" className="text-base">
-                <Link href="/gallery">
-                  {t.hero.cta}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="text-base bg-transparent">
-                <Link href="/tour-3d">
-                  <Box className="mr-2 h-5 w-5" />
-                  {t.nav.tour3d}
-                </Link>
-              </Button>
-              <QRScanner />
+            <p className="text-lg text-muted-foreground">
+              {t.splash?.subtitle || "Découvrez l'art et la culture africaine"}
+            </p>
+            {/* Loader */}
+            <div className="flex justify-center space-x-2">
+              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Features Section */}
-      <section className="py-16 md:py-24 bg-background justify-center items-center flex">
-        <div className="container px-4">
-          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20">
-              <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
-                <Box className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-xl">Visite 3D</h3>
-              <p className="text-muted-foreground text-sm">Explorez le musée en réalité virtuelle</p>
-            </div>
+      <main className="flex flex-col">
+        {/* Hero Section */}
+        <section className="relative min-h-[calc(80vh-4rem)] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100 -z-10" />
+          <div className="absolute inset-0 bg-[url('https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-5 -z-10" />
 
-            <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Globe className="h-6 w-6 text-primary" />
+          <div className="container px-4 py-16 md:py-24">
+            <div className="max-w-4xl mx-auto text-center space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <Sparkles className="h-4 w-4" />
+                <span>Expérience digitale immersive</span>
               </div>
-              <h3 className="font-semibold text-xl">Multilingue</h3>
-              <p className="text-muted-foreground text-sm">Français, English, Wolof</p>
-            </div>
 
-            <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Headphones className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-xl">Audio Guide</h3>
-              <p className="text-muted-foreground text-sm">Descriptions audio pour chaque œuvre</p>
-            </div>
+              <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight">
+                {t.hero.title}
+              </h1>
 
-            <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-                  />
-                </svg>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">{t.hero.subtitle}</p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Button asChild size="lg" className="text-base">
+                  <Link href="/gallery">
+                    {t.hero.cta}
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="text-base bg-transparent">
+                  <Link href="/tour-3d">
+                    <Box className="mr-2 h-5 w-5" />
+                    {t.nav.tour3d}
+                  </Link>
+                </Button>
+                <QRScanner />
               </div>
-              <h3 className="font-semibold text-xl">QR Code</h3>
-              <p className="text-muted-foreground text-sm">Scannez et découvrez instantanément</p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Preview Section */}
-      <section className="py-16 md:py-24 bg-muted/30 justify-center items-center flex">
-        <div className="container px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center space-y-4 mb-12">
-              <h2 className="font-serif text-3xl md:text-4xl font-bold">Collection exceptionnelle</h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Plus de 100 œuvres emblématiques des civilisations africaines
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="group relative aspect-[3/4] rounded-lg overflow-hidden bg-card border">
-                  <Image
-                    src={`${artworks[i].imageUrl}`}
-                    alt="Artwork preview"
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
+        {/* Features Section */}
+        <section className="py-16 md:py-24 bg-background justify-center items-center flex">
+          <div className="container px-4">
+            <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+              <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20">
+                <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Box className="h-6 w-6 text-primary" />
                 </div>
-              ))}
-            </div>
+                <h3 className="font-semibold text-xl">Visite 3D</h3>
+                <p className="text-muted-foreground text-sm">Explorez le musée en réalité virtuelle</p>
+              </div>
 
-            <div className="text-center mt-12">
-              <Button asChild size="lg" variant="outline">
-                <Link href="/gallery">
-                  Voir toute la collection
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Globe className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-xl">Multilingue</h3>
+                <p className="text-muted-foreground text-sm">Français, English, Wolof</p>
+              </div>
+
+              <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Headphones className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-xl">Audio Guide</h3>
+                <p className="text-muted-foreground text-sm">Descriptions audio pour chaque œuvre</p>
+              </div>
+
+              <div className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-xl">QR Code</h3>
+                <p className="text-muted-foreground text-sm">Scannez et découvrez instantanément</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+
+        {/* Preview Section */}
+        <section className="py-16 md:py-24 bg-muted/30 justify-center items-center flex">
+          <div className="container px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center space-y-4 mb-12">
+                <h2 className="font-serif text-3xl md:text-4xl font-bold">Collection exceptionnelle</h2>
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                  Plus de 100 œuvres emblématiques des civilisations africaines
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="group relative aspect-[3/4] rounded-lg overflow-hidden bg-card border">
+                    <Image
+                      src={`${artworks[i].imageUrl}`}
+                      alt="Artwork preview"
+                      fill
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="text-center mt-12">
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/gallery">
+                    Voir toute la collection
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* CSS for Splash Screen Animation and Loader */}
+      <style jsx>{`
+        @keyframes fadeOut {
+          0% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+        .animate-fadeOut {
+          animation: fadeOut 3s ease-in-out forwards;
+        }
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        .animate-bounce {
+          animation: bounce 0.6s infinite;
+        }
+      `}</style>
+    </>
   )
 }

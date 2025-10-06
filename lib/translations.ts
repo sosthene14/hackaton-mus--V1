@@ -1,6 +1,6 @@
 import type { LanguageContent } from "./types"
 
-export const translations: Record<string, LanguageContent> = {
+export const translations = {
   fr: {
     nav: {
       home: "Accueil",
@@ -8,9 +8,10 @@ export const translations: Record<string, LanguageContent> = {
       about: "À propos",
       tour3d: "Visite 3D",
     },
-    hero: {
-      title: "Musée des Civilisations Noires",
-      subtitle: "Découvrez la richesse du patrimoine africain à travers une expérience digitale immersive",
+   hero: {
+      welcome: "Bienvenue au Musée des Civilisations Noires",
+      title: "Découvrez l'héritage des civilisations africaines",
+      subtitle: "Une expérience immersive au cœur de l'histoire et de la culture",
       cta: "Explorer la collection",
     },
     gallery: {
@@ -59,6 +60,7 @@ export const translations: Record<string, LanguageContent> = {
     },
     hero: {
       title: "Museum of Black Civilizations",
+      welcome: "Welcome to the Museum of Black Civilizations",
       subtitle: "Discover the richness of African heritage through an immersive digital experience",
       cta: "Explore the collection",
     },
@@ -103,10 +105,12 @@ export const translations: Record<string, LanguageContent> = {
       home: "Kër",
       gallery: "Galeriy",
       about: "Ci ñu",
-      tour3d: "Visite 3D",
+      tour3d: "Wonewu 3D",
+      
     },
     hero: {
       title: "Muse yu Sivilisasiyu ñu Ñuul",
+      welcome: "Dalal ak Jamm ak Musée des Civilisations Noires",
       subtitle: "Xam-xam ci boyotu aadama bu Afrik ci benn esperians dijital",
       cta: "Xool koleksiyoŋ bi",
     },
