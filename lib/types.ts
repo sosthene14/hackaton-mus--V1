@@ -28,6 +28,7 @@ export interface LanguageContent {
     gallery: string
     about: string
     tour3d: string
+    contact: string
   }
   hero: {
     title: string

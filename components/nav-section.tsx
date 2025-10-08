@@ -6,7 +6,7 @@ import { useLanguage } from "@/lib/language-context"
 import { translations } from "@/lib/translations"
 import { LanguageSwitcher } from "./language-switcher"
 import { Button } from "./ui/button"
-import { Menu, QrCode, Box, Home, Info } from "lucide-react"
+import { Menu, QrCode, Box, Home, Info, Phone } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +43,7 @@ export const NavSection = () => {
             { label: t.nav.tour3d, href: "/tour-3d", icon: <Box className="w-4 h-4" /> },
             { label: "Scan", href: "/scan", icon: <QrCode className="w-4 h-4" /> },
             { label: t.nav.about, href: "/about", icon: <Info className="w-4 h-4" /> },
+            { label: t.nav.contact, href: "/contact", icon: <Phone className="w-4 h-4" /> },
 
           ].map((item) => (
             <Link

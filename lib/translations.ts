@@ -7,6 +7,7 @@ export const translations: { [key: string]: LanguageContent } = {
       gallery: "Galerie",
       about: "À propos",
       tour3d: "Visite 3D",
+      contact: "Contact",
     },
     hero: {
       welcome: "Bienvenue au Musée des Civilisations Noires",
@@ -93,6 +94,7 @@ export const translations: { [key: string]: LanguageContent } = {
       gallery: "Gallery",
       about: "About",
       tour3d: "3D Tour",
+      contact: "Contact",
     },
     hero: {
       title: "Museum of Black Civilizations",
@@ -178,6 +180,7 @@ export const translations: { [key: string]: LanguageContent } = {
       gallery: "Galeriy",
       about: "Ci ñu",
       tour3d: "Wonewu 3D",
+      contact: "Kontak",
     },
     hero: {
       title: "Muse yu Sivilisasiyu ñu Ñuul",
