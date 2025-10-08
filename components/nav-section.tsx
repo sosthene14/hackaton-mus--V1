@@ -100,6 +100,11 @@ export const NavSection = () => {
                   <Info className="h-4 w-4" /> {t.nav.about}
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/contact" className="flex items-center gap-3 py-2.5 text-white">
+                  <Phone className="h-4 w-4" /> {t.nav.contact}
+                </Link>
+              </DropdownMenuItem>
 
               <DropdownMenuSeparator />
 
