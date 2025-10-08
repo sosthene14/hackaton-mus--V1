@@ -1,6 +1,6 @@
 import type { LanguageContent } from "./types"
 
-export const translations = {
+export const translations: { [key: string]: LanguageContent } = {
   fr: {
     nav: {
       home: "Accueil",
@@ -8,7 +8,7 @@ export const translations = {
       about: "À propos",
       tour3d: "Visite 3D",
     },
-   hero: {
+    hero: {
       welcome: "Bienvenue au Musée des Civilisations Noires",
       title: "Découvrez l'héritage des civilisations africaines",
       subtitle: "Une expérience immersive au cœur de l'histoire et de la culture",
@@ -42,6 +42,42 @@ export const translations = {
         "Utilisez les touches WASD ou les flèches pour vous déplacer. Cliquez sur une œuvre pour en savoir plus.",
       clickToView: "Cliquer pour voir les détails",
       loading: "Chargement de la galerie 3D...",
+    },
+    footer: {
+      about: {
+        title: "À propos",
+        ourMission: "Notre mission",
+        team: "L'équipe",
+        partners: "Partenaires",
+      },
+      visit: {
+        title: "Visitez",
+        hoursAndPrices: "Horaires & Tarifs",
+        tour3d: "Visite 3D",
+        currentExhibitions: "Expositions en cours",
+        events: "Événements",
+        bookGuide: "Réserver un guide",
+      },
+      gallery: {
+        title: "Galerie",
+        browseArtworks: "Parcourir les œuvres",
+        permanentExhibitions: "Expositions permanentes",
+        temporaryExhibitions: "Expositions temporaires",
+        digitalArchives: "Archives numériques",
+        onlineCatalog: "Catalogue en ligne",
+      },
+      contact: {
+        title: "Contact",
+        contactUs: "Nous contacter",
+        educationalService: "Service éducatif",
+        spaceRental: "Location d'espaces",
+        newsletter: "Newsletter",
+      },
+      bottom: {
+        copyright:
+          "© 2025 Musée des Civilisations Noires - Tous droits réservés | Ministère de la Culture du Sénégal by Rostal High-Tech",
+        pressAndMedia: "Presse & Médias",
+      },
     },
     common: {
       scanQR: "Scanner QR Code",
@@ -92,6 +128,42 @@ export const translations = {
       clickToView: "Click to view details",
       loading: "Loading 3D gallery...",
     },
+    footer: {
+      about: {
+        title: "About",
+        ourMission: "Our Mission",
+        team: "The Team",
+        partners: "Partners",
+      },
+      visit: {
+        title: "Visit",
+        hoursAndPrices: "Hours & Prices",
+        tour3d: "3D Tour",
+        currentExhibitions: "Current Exhibitions",
+        events: "Events",
+        bookGuide: "Book a Guide",
+      },
+      gallery: {
+        title: "Gallery",
+        browseArtworks: "Browse Artworks",
+        permanentExhibitions: "Permanent Exhibitions",
+        temporaryExhibitions: "Temporary Exhibitions",
+        digitalArchives: "Digital Archives",
+        onlineCatalog: "Online Catalog",
+      },
+      contact: {
+        title: "Contact",
+        contactUs: "Contact Us",
+        educationalService: "Educational Service",
+        spaceRental: "Space Rental",
+        newsletter: "Newsletter",
+      },
+      bottom: {
+        copyright:
+          "© 2025 Museum of Black Civilizations - All rights reserved | Ministry of Culture of Senegal by Rostal High-Tech",
+        pressAndMedia: "Press & Media",
+      },
+    },
     common: {
       scanQR: "Scan QR Code",
       cancel: "Cancel",
@@ -106,7 +178,6 @@ export const translations = {
       gallery: "Galeriy",
       about: "Ci ñu",
       tour3d: "Wonewu 3D",
-      
     },
     hero: {
       title: "Muse yu Sivilisasiyu ñu Ñuul",
@@ -141,6 +212,42 @@ export const translations = {
       instructions: "Jëfandikoo WASD walla flèches yi ngir dem. Bësal ci liggéey bi ngir xool.",
       clickToView: "Bësal ngir xool détails",
       loading: "Dafay yeb galeriy 3D...",
+    },
+    footer: {
+      about: {
+        title: "Ci ñu",
+        ourMission: "Nitu ñu",
+        team: "Ekipp bi",
+        partners: "Partner yi",
+      },
+      visit: {
+        title: "Gën a wone",
+        hoursAndPrices: "Ñeeti wone ak njot",
+        tour3d: "Wonewu 3D",
+        currentExhibitions: "Wone yu teew",
+        events: "Yéene",
+        bookGuide: "Jot benn gid",
+      },
+      gallery: {
+        title: "Galeriy",
+        browseArtworks: "Xool liggéey yi",
+        permanentExhibitions: "Wone yu dund",
+        temporaryExhibitions: "Wone yu fi teew",
+        digitalArchives: "Arsiif dijital",
+        onlineCatalog: "Katalog ci liy",
+      },
+      contact: {
+        title: "Kontak",
+        contactUs: "Kontakte ak ñu",
+        educationalService: "Servis bu jàng",
+        spaceRental: "Njoor bu digg",
+        newsletter: "Newsletter",
+      },
+      bottom: {
+        copyright:
+          "© 2025 Muse yu Sivilisasiyu ñu Ñuul - Buumu solo | Ministère bu Kultur bu Senegal by Rostal High-Tech",
+        pressAndMedia: "Presse ak Médias",
+      },
     },
     common: {
       scanQR: "Scan kodu QR",

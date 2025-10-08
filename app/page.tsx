@@ -9,6 +9,10 @@ import Image from "next/image"
 import { QRScanner } from "@/components/qr-scanner"
 import { artworks } from "@/lib/artworks-data"
 import { useState, useEffect } from "react"
+import AfricanHeritageHero from "@/components/hero-header"
+import { CollectionSection } from "@/components/collection-section"
+import { ImmersiveExprience } from "@/components/immersive-experience"
+import { Footer } from "@/components/footer"
 
 export default function HomePage() {
   const { language } = useLanguage()
@@ -26,29 +30,21 @@ export default function HomePage() {
   return (
     <>
       {/* Splash Screen */}
-      {showSplash && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-amber-100 via-orange-100 to-stone-200 animate-fadeOut">
-          <div className="absolute inset-0 bg-[url('https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-10" />
-          <div className="text-center space-y-6">
-        
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-primary">
-              {t.splash?.welcome || "Bienvenue au Musée des Civilisations Noires"}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {t.splash?.subtitle || "Découvrez l'art et la culture africaine"}
-            </p>
-            {/* Loader */}
-            <div className="flex justify-center space-x-2">
-              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
-              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-              <div className="h-3 w-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
-            </div>
-          </div>
-        </div>
-      )}
+     
+
+      <AfricanHeritageHero />
+      <CollectionSection />
+
+      <ImmersiveExprience />
+
+     
+
+      {
+        /*  
+
+      
 
       <main className="flex flex-col">
-        {/* Hero Section */}
         <section className="relative min-h-[calc(80vh-4rem)] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100 -z-10" />
           <div className="absolute inset-0 bg-[url('https://static.vecteezy.com/system/resources/previews/006/424/635/non_2x/pan-african-color-seamless-pattern-background-free-vector.jpg')] opacity-5 -z-10" />
@@ -85,7 +81,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Features Section */}
         <section className="py-16 md:py-24 bg-background justify-center items-center flex">
           <div className="container px-4">
             <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -131,7 +126,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Preview Section */}
         <section className="py-16 md:py-24 bg-muted/30 justify-center items-center flex">
           <div className="container px-4">
             <div className="max-w-6xl mx-auto">
@@ -167,6 +161,9 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+  */
+      }
+      
 
       {/* CSS for Splash Screen Animation and Loader */}
       <style jsx>{`

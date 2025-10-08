@@ -33,6 +33,7 @@ export interface LanguageContent {
     title: string
     subtitle: string
     cta: string
+    welcome: string // Added to match translations object
   }
   gallery: {
     title: string
@@ -61,6 +62,41 @@ export interface LanguageContent {
     instructions: string
     clickToView: string
     loading: string
+  }
+  footer: {
+    about: {
+      title: string
+      ourMission: string
+      team: string
+      partners: string
+    }
+    visit: {
+      title: string
+      hoursAndPrices: string
+      tour3d: string
+      currentExhibitions: string
+      events: string
+      bookGuide: string
+    }
+    gallery: {
+      title: string
+      browseArtworks: string
+      permanentExhibitions: string
+      temporaryExhibitions: string
+      digitalArchives: string
+      onlineCatalog: string
+    }
+    contact: {
+      title: string
+      contactUs: string
+      educationalService: string
+      spaceRental: string
+      newsletter: string
+    }
+    bottom: {
+      copyright: string
+      pressAndMedia: string
+    }
   }
   common: {
     scanQR: string

@@ -5,6 +5,8 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
 import { Navigation } from "@/components/navigation"
+import { NavSection } from "@/components/nav-section"
+import { Footer } from "@/components/footer"
 
 
 const inter = Inter({
@@ -33,8 +35,9 @@ export default function RootLayout({
       <script async type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
       <body>
         <LanguageProvider>
-          <Navigation />
+      <NavSection />
           {children}
+           <Footer />
         </LanguageProvider>
       </body>
     </html>

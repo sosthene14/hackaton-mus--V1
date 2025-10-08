@@ -14,14 +14,30 @@ export function LanguageSwitcher() {
   ]
 
   return (
-    <div className="flex gap-1 rounded-lg bg-background/50 p-1 backdrop-blur-sm border">
-      {languages.map((lang) => (
+    <div className="flex gap-0 bg-white/10 backdrop-blur-md rounded-lg border border-white/30">
+      {languages.map((lang, index) => (
         <Button
           key={lang.code}
-          variant={language === lang.code ? "default" : "ghost"}
           size="sm"
+          variant={language === lang.code ? "default" : "ghost"}
           onClick={() => setLanguage(lang.code)}
-          className="min-w-[44px] font-medium"
+          className={`min-w-[44px] font-medium text-white ${
+            language === lang.code
+              ? `bg-orange-500 hover:bg-orange-600 ${
+                  index === 0
+                    ? "rounded-l-lg rounded-r-none"
+                    : index === languages.length - 1
+                    ? "rounded-r-lg rounded-l-none"
+                    : "rounded-none"
+                } ${index < languages.length - 1 ? "border-r-0 border border-white/20" : ""}`
+              : `hover:bg-white/10 ${
+                  index === 0
+                    ? "rounded-l-lg rounded-r-none"
+                    : index === languages.length - 1
+                    ? "rounded-r-lg rounded-l-none"
+                    : "rounded-none"
+                }`
+          }`}
         >
           {lang.label}
         </Button>

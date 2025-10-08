@@ -7,7 +7,7 @@ import { useLanguage } from "@/lib/language-context"
 import { translations } from "@/lib/translations"
 import { artworks } from "@/lib/artworks-data"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, MapPin, Calendar, User, Tag, X, RotateCw, ZoomIn, ZoomOut, Maximize2, Download, Box } from "lucide-react"
+import { ArrowLeft, MapPin, Calendar, User, Tag, X, RotateCw, ZoomIn, ZoomOut, Maximize2, Download, Box, Share2, Heart, Info, Bookmark, Eye } from "lucide-react"
 import Image from "next/image"
 import { QRCodeDisplay } from "@/components/qr-code-display"
 import { AudioPlayer } from "@/components/audio-player"
@@ -103,25 +103,27 @@ function Model3DModal({ isOpen, onClose, modelUrl, title, language }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-background rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col border-2 border-slate-200">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-6 border-b-2 border-slate-200 bg-slate-50">
           <div className="flex items-center gap-3">
-            <Box className="h-6 w-6 text-primary" />
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <div className="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center">
+              <Box className="h-5 w-5 text-amber-700" />
+            </div>
+            <h2 className="text-xl font-serif font-bold text-slate-900">{title}</h2>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-slate-200">
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 relative overflow-hidden">
+        <div className="flex-1 relative overflow-hidden bg-slate-50">
           {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted/50 z-10">
-              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-              <p className="text-muted-foreground">{getText('loading')}</p>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-10">
+              <div className="w-16 h-16 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-slate-600 font-medium">{getText('loading')}</p>
             </div>
           )}
           
@@ -147,52 +149,53 @@ function Model3DModal({ isOpen, onClose, modelUrl, title, language }) {
             max-camera-orbit="auto auto 200%"
             style={{ width: "100%", height: "100%" }}
           ></model-viewer>
-
         </div>
 
         {/* Controls */}
-        <div className="p-4 border-t bg-muted/30">
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <span className="text-sm font-medium">{getText('controls')}</span>
+        <div className="p-6 border-t-2 border-slate-200 bg-white">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <span className="text-sm font-semibold text-slate-700">{getText('controls')}</span>
               <div className="flex items-center gap-2 flex-wrap">
                 <Button
                   size="sm"
                   variant={autoRotate ? "default" : "outline"}
                   onClick={() => setAutoRotate(!autoRotate)}
-                  className="gap-2"
+                  className={`gap-2 ${autoRotate ? 'bg-amber-600 hover:bg-amber-700' : 'border-slate-300'}`}
                 >
                   <RotateCw className="h-4 w-4" />
                   {getText('rotate')}
                 </Button>
                 
-                <Button size="sm" variant="outline" onClick={resetCamera} className="gap-2">
+                <Button size="sm" variant="outline" onClick={resetCamera} className="gap-2 border-slate-300">
                   <RotateCw className="h-4 w-4" />
                   {getText('reset')}
                 </Button>
                 
-                <Button size="sm" variant="outline" onClick={zoomIn}>
+                <Button size="sm" variant="outline" onClick={zoomIn} className="border-slate-300">
                   <ZoomIn className="h-4 w-4" />
                 </Button>
                 
-                <Button size="sm" variant="outline" onClick={zoomOut}>
+                <Button size="sm" variant="outline" onClick={zoomOut} className="border-slate-300">
                   <ZoomOut className="h-4 w-4" />
                 </Button>
                 
-                <Button size="sm" variant="outline" onClick={toggleFullscreen}>
+                <Button size="sm" variant="outline" onClick={toggleFullscreen} className="border-slate-300">
                   <Maximize2 className="h-4 w-4" />
                 </Button>
                 
-                <Button size="sm" variant="outline" onClick={downloadModel} className="gap-2">
+                <Button size="sm" variant="outline" onClick={downloadModel} className="gap-2 border-slate-300">
                   <Download className="h-4 w-4" />
                   {getText('download')}
                 </Button>
               </div>
             </div>
             
-            <p className="text-xs text-muted-foreground text-center">
-              {getText('instructions')}
-            </p>
+            <div className="p-3 rounded-lg bg-blue-50 border border-blue-200">
+              <p className="text-xs text-blue-800 text-center font-medium">
+                {getText('instructions')}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -206,24 +209,83 @@ export default function ArtworkDetailPage() {
   const { language } = useLanguage()
   const t = translations[language]
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [isBookmarked, setIsBookmarked] = useState(false)
+  const [viewCount, setViewCount] = useState(0)
+  const [showShareMenu, setShowShareMenu] = useState(false)
 
   const artwork = artworks.find((a) => a.id === params.id)
 
-const playTest = () => {
-  puter.ai.txt2speech("Hello, world! This is text-to-speech using Puter.js.")
-    .then((audio) => {
-        audio.play();
-    });
-}
+  useEffect(() => {
+    if (artwork) {
+      // Charger les favoris
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+      setIsFavorite(favorites.includes(artwork.id))
+      
+      // Charger les bookmarks
+      const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]')
+      setIsBookmarked(bookmarks.includes(artwork.id))
+      
+      // Incrémenter et charger le compteur de vues
+      const views = JSON.parse(localStorage.getItem('artworkViews') || '{}')
+      views[artwork.id] = (views[artwork.id] || 0) + 1
+      setViewCount(views[artwork.id])
+      localStorage.setItem('artworkViews', JSON.stringify(views))
+    }
+  }, [artwork])
 
-  
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+    if (isFavorite) {
+      const updated = favorites.filter(id => id !== artwork.id)
+      localStorage.setItem('favorites', JSON.stringify(updated))
+    } else {
+      favorites.push(artwork.id)
+      localStorage.setItem('favorites', JSON.stringify(favorites))
+    }
+    setIsFavorite(!isFavorite)
+  }
+
+  const toggleBookmark = () => {
+    const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]')
+    if (isBookmarked) {
+      const updated = bookmarks.filter(id => id !== artwork.id)
+      localStorage.setItem('bookmarks', JSON.stringify(updated))
+    } else {
+      bookmarks.push(artwork.id)
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+    }
+    setIsBookmarked(!isBookmarked)
+  }
+
+  const handleShare = (platform) => {
+    const url = typeof window !== 'undefined' ? window.location.href : ''
+    const text = artwork.title[language]
+    
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+      copy: url
+    }
+
+    if (platform === 'copy') {
+      navigator.clipboard.writeText(url)
+      alert(language === 'fr' ? 'Lien copié !' : language === 'en' ? 'Link copied!' : 'Lien kopié!')
+    } else {
+      window.open(shareUrls[platform], '_blank')
+    }
+    setShowShareMenu(false)
+  }
 
   if (!artwork) {
     return (
-      <main className="min-h-screen bg-background flex items-center justify-center">
+      <main className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Œuvre non trouvée</h1>
-          <Button onClick={() => router.push("/gallery")}>Retour à la galerie</Button>
+          <h1 className="text-2xl font-bold text-slate-900">Œuvre non trouvée</h1>
+          <Button onClick={() => router.push("/gallery")} className="bg-amber-600 hover:bg-amber-700">
+            Retour à la galerie
+          </Button>
         </div>
       </main>
     )
@@ -238,32 +300,99 @@ const playTest = () => {
     return texts[language] || texts['fr']
   }
 
-  return (
-    <main className="min-h-screen bg-background">
-      <div className="container px-4 py-8">
-        {/* Back Button */}
-        <Button variant="ghost" onClick={() => router.back()} className="mb-6">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {language === "fr" ? "Retour" : language === "en" ? "Back" : "Dellu"}
-        </Button>
+  const getShareText = () => {
+    const texts = {
+      fr: "Partager",
+      en: "Share",
+      wo: "Wax"
+    }
+    return texts[language] || texts['fr']
+  }
 
+  return (
+    <main className="min-h-screen bg-slate-50">
+      {/* Header with actions */}
+      <div className="bg-white border-b-2 border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div className="container px-4 py-4 flex items-center justify-between">
+          <Button variant="ghost" onClick={() => router.back()} className="gap-2 hover:bg-slate-100">
+            <ArrowLeft className="h-4 w-4" />
+            {language === "fr" ? "Retour" : language === "en" ? "Back" : "Dellu"}
+          </Button>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleFavorite}
+              className={`rounded-full ${isFavorite ? 'text-red-600 hover:text-red-700' : 'hover:bg-slate-100'}`}
+            >
+              <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleBookmark}
+              className={`rounded-full ${isBookmarked ? 'text-amber-600 hover:text-amber-700' : 'hover:bg-slate-100'}`}
+            >
+              <Bookmark className={`h-5 w-5 ${isBookmarked ? 'fill-current' : ''}`} />
+            </Button>
+            
+            <div className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowShareMenu(!showShareMenu)}
+                className="rounded-full hover:bg-slate-100"
+              >
+                <Share2 className="h-5 w-5" />
+              </Button>
+              
+              {showShareMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border-2 border-slate-200 py-2 z-50">
+                  <button onClick={() => handleShare('facebook')} className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm">
+                    Facebook
+                  </button>
+                  <button onClick={() => handleShare('twitter')} className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm">
+                    Twitter
+                  </button>
+                  <button onClick={() => handleShare('whatsapp')} className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm">
+                    WhatsApp
+                  </button>
+                  <button onClick={() => handleShare('copy')} className="w-full px-4 py-2 text-left hover:bg-slate-50 text-sm">
+                    {language === 'fr' ? 'Copier le lien' : language === 'en' ? 'Copy link' : 'Koppi lien'}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+       
+      <div className="container px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
           {/* Left Column - Image */}
-          <div className="space-y-6">
-            <div className="relative aspect-[3/4] rounded-lg overflow-hidden bg-muted border">
+          <div className="space-y-4">
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-white border-2 border-slate-200 shadow-lg">
               <Image
                 src={artwork.imageUrl || "/placeholder.svg"}
                 alt={artwork.title[language]}
                 fill
                 className="object-cover"
               />
+              
+              {/* View counter badge */}
+              <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-sm text-white text-xs font-medium flex items-center gap-2">
+                <Eye className="h-3 w-3" />
+                {viewCount} {language === 'fr' ? 'vues' : language === 'en' ? 'views' : 'xool'}
+              </div>
             </div>
 
             {/* 3D View Button */}
             {artwork.model3dUrl && (
               <Button 
                 onClick={() => setIsModalOpen(true)}
-                className="w-full gap-2"
+                className="w-full gap-2 bg-amber-600 hover:bg-amber-700 h-12 text-base font-medium"
                 size="lg"
               >
                 <Box className="h-5 w-5" />
@@ -271,83 +400,98 @@ const playTest = () => {
               </Button>
             )}
 
-            {/* QR Code Section */}
+            {/* QR Code Section - Mobile */}
             <div className="lg:hidden">
-              <QRCodeDisplay
-                value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
-                label={t.artwork.scanToView}
-              />
+              <div className="bg-white border-2 border-slate-200 rounded-xl p-6 shadow-sm">
+                <QRCodeDisplay
+                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
+                  label={t.artwork.scanToView}
+                />
+              </div>
             </div>
           </div>
 
           {/* Right Column - Details */}
           <div className="space-y-6">
             {/* Title and Category */}
-            <div className="space-y-3">
-              <Badge variant="secondary" className="text-sm">
+            <div className="space-y-3 bg-white border-2 border-slate-200 rounded-xl p-6 shadow-sm">
+              <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-200 border-amber-300">
                 {artwork.category}
               </Badge>
-              <h1 className="font-serif text-3xl md:text-4xl font-bold">{artwork.title[language]}</h1>
+              <h1 className="font-serif text-3xl md:text-4xl font-bold text-slate-900">{artwork.title[language]}</h1>
             </div>
 
             {/* Metadata */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
-                <User className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-sm text-muted-foreground">{t.artwork.artist}</p>
-                  <p className="font-medium">{artwork.artist}</p>
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-amber-300 transition-colors shadow-sm">
+                <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                  <User className="h-5 w-5 text-slate-700" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 mb-1">{t.artwork.artist}</p>
+                  <p className="font-semibold text-slate-900 truncate">{artwork.artist}</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
-                <Calendar className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-sm text-muted-foreground">{t.artwork.period}</p>
-                  <p className="font-medium">{artwork.period}</p>
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-amber-300 transition-colors shadow-sm">
+                <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                  <Calendar className="h-5 w-5 text-slate-700" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 mb-1">{t.artwork.period}</p>
+                  <p className="font-semibold text-slate-900 truncate">{artwork.period}</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
-                <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-sm text-muted-foreground">{t.artwork.origin}</p>
-                  <p className="font-medium">{artwork.origin}</p>
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-amber-300 transition-colors shadow-sm">
+                <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-5 w-5 text-slate-700" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 mb-1">{t.artwork.origin}</p>
+                  <p className="font-semibold text-slate-900 truncate">{artwork.origin}</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/50">
-                <Tag className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-sm text-muted-foreground">{t.artwork.category}</p>
-                  <p className="font-medium">{artwork.category}</p>
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-white border-2 border-slate-200 hover:border-amber-300 transition-colors shadow-sm">
+                <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                  <Tag className="h-5 w-5 text-slate-700" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-500 mb-1">{t.artwork.category}</p>
+                  <p className="font-semibold text-slate-900 truncate">{artwork.category}</p>
                 </div>
               </div>
             </div>
 
             {/* Description */}
-            <div className="space-y-3">
-              <h2 className="font-semibold text-xl">
-                {language === "fr" ? "Description" : language === "en" ? "Description" : "Wone"}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">{artwork.description[language]}</p>
+            <div className="bg-white border-2 border-slate-200 rounded-xl p-6 shadow-sm space-y-3">
+              <div className="flex items-center gap-2">
+                <Info className="h-5 w-5 text-amber-600" />
+                <h2 className="font-serif font-bold text-xl text-slate-900">
+                  {language === "fr" ? "Description" : language === "en" ? "Description" : "Wone"}
+                </h2>
+              </div>
+              <p className="text-slate-600 leading-relaxed">{artwork.description[language]}</p>
             </div>
 
             {/* Audio Player */}
-            <div className="space-y-3">
-              <h2 className="font-semibold text-xl">{t.artwork.listenDescription}</h2>
-             <AudioPlayer
-  description={artwork.description[language]} // Pass description text
-  title={artwork.title[language]}
-/>
+            <div className="bg-white border-2  rounded-xl p-6 shadow-sm space-y-4">
+              <h2 className="font-serif font-bold text-xl text-slate-900">{t.artwork.listenDescription}</h2>
+              <AudioPlayer
+                description={artwork.description[language]}
+                title={artwork.title[language]}
+              />
             </div>
 
             {/* QR Code Section - Desktop */}
             <div className="hidden lg:block">
-              <QRCodeDisplay
-                value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
-                label={t.artwork.scanToView}
-              />
+              <div className="bg-white border-2  rounded-xl p-6 shadow-sm">
+                <QRCodeDisplay
+                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
+                  label={t.artwork.scanToView}
+                />
+              </div>
             </div>
           </div>
         </div>
