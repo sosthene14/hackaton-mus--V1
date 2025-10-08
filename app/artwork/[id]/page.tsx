@@ -404,7 +404,7 @@ export default function ArtworkDetailPage() {
             <div className="lg:hidden">
               <div className="bg-white border-2 border-slate-200 rounded-xl p-6 shadow-sm">
                 <QRCodeDisplay
-                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
+                  value={`${artwork.qrCode}`}
                   label={t.artwork.scanToView}
                 />
               </div>
@@ -488,7 +488,7 @@ export default function ArtworkDetailPage() {
             <div className="hidden lg:block">
               <div className="bg-white border-2  rounded-xl p-6 shadow-sm">
                 <QRCodeDisplay
-                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/artwork/${artwork.id}`}
+                  value={`${artwork.qrCode}`}
                   label={t.artwork.scanToView}
                 />
               </div>

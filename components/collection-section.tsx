@@ -10,7 +10,7 @@ export const CollectionSection = () => {
   const { language } = useLanguage()
 
   return (
-    <div className="max-w-7xl mt-[950px] md:mt-[350px] lg:mt-[130px] mx-auto px-8 py-20">
+    <div className="max-w-7xl mt-[1100px] sm:mt-[950px] md:mt-[350px] lg:mt-[130px] mx-auto px-8 py-20">
       <div className="mb-12">
         <h2 className="text-4xl font-bold mb-3">
           {language === "fr" ? "Collection exceptionnelle" : language === "en" ? "Exceptional Collection" : "Koleksion bu rafet"}
@@ -30,7 +30,7 @@ export const CollectionSection = () => {
             key={artwork.id}
             className="bg-white/5 shadow-md backdrop-blur-md border-white/10 hover:bg-white/10 transition-all duration-300 group"
           >
-            <div className="flex gap-6 px-6 py-2">
+            <div className="flex flex-col md:flex-row gap-6 px-6 py-2">
               <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-slate-700">
                 <img
                   src={artwork.imageUrl}
