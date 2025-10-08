@@ -1,7 +1,10 @@
 "use client"
 
+import HistoryAndCTASecion from "@/components/history-cta"
+import ValuesSection from "@/components/our-value"
 import { useLanguage } from "@/lib/language-context"
 import { Building2, Users, Globe, Award, MapPin, Clock, Phone, Mail, Calendar, Heart, Sparkles } from "lucide-react"
+import Image from "next/image"
 
 export default function AboutPage() {
   const { language } = useLanguage()
@@ -146,159 +149,176 @@ export default function AboutPage() {
 
   const t = content[language]
 
+    const images = [
+    { src: '/dogon.jpg', alt: 'Large figure with elaborate headdress and drum', layout: 'col-span-2 row-span-2' },
+    { src: '/nok.jpg', alt: 'Central display with two figures on pillars', layout: 'col-span-1 row-span-1' },
+    { src: '/trone.jpg', alt: 'Figures in dark woven material on the right', layout: 'col-span-2 row-span-1' },
+    { src: '/textile.jpg', alt: 'Mask in a glass case on the bottom left', layout: 'col-span-1 row-span-1' },
+    { src: '/fang.jpg', alt: 'Smaller wooden mask', layout: 'col-span-1 row-span-1' },
+    { src: '/femme_fs.webp', alt: 'Figures in green and brown outfits', layout: 'col-span-2 row-span-1' },
+  ];
+
   return (
-    <main className="min-h-screen bg-slate-50">
-      <div className="container px-4 py-12 max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center space-y-4 mb-16">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900">{t.title}</h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">{t.subtitle}</p>
+    <div>
+       <HeroSection />
+         <div className="max-w-7xl z-10 mx-auto py-12 px-4 sm:px-6 lg:px-8 font-sans">
+       
+      
+      {/* --- Top Text Section --- */}
+      <header className="grid mb-10 mt-20 grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        
+        {/* 'À PROPOS' (About) Column */}
+        <div>
+          <h2 className="text-orange-500 font-bold text-lg mb-2 uppercase tracking-widest">
+            À PROPOS
+          </h2>
+          <p className="text-4xl font-bold leading-snug">
+            Nous offrons aux institutions culturelles une technologie innovante pour démocratiser l'accès au patrimoine
+          </p>
         </div>
 
-        {/* Mission */}
-        <div className="mb-12">
-          <div className="bg-white border-2 border-slate-200 rounded-2xl p-8 md:p-10 space-y-4 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-12 w-12 rounded-xl bg-slate-100 flex items-center justify-center">
-                <Building2 className="h-6 w-6 text-amber-700" />
+        {/* Mission & Vision Column */}
+        <div className="text-gray-700">
+          <h3 className="text-xl text-orange-500 font-bold mb-1 uppercase tracking-wider">
+            NOTRE MISSION
+          </h3>
+          <p className="mb-6 text-base">
+            Le **Musée des Civilisations Noires** est l'un des plus grands espaces culturels du Sénégal et d'Afrique. Il abrite une richesse patrimoniale inestimable qui mérite d'être accessible au plus grand nombre.
+          </p>
+          <h3 className="text-xl  text-orange-500 font-bold mb-1 uppercase tracking-wider">
+            NOTRE VISION
+          </h3>
+          <p className="text-base">
+            Faire rayonner les civilisations noires à travers le monde et préserver le patrimoine africain pour les générations futures. Ce projet digital s'inscrit dans cette démarche de démocratisation de l'accès à la culture.
+          </p>
+        </div>
+      </header>
+
+      {/* --- Gallery/Image Section --- */}
+      <div className="grid mt-20 grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 relative">
+        
+        {/* Dotted Pattern (Styled to mimic the original position) */}
+        <div className="absolute right-0 top-1/2 transform translate-x-1/4 -translate-y-1/2 w-48 h-48 pointer-events-none hidden lg:block">
+            <svg viewBox="0 0 100 100" className="w-full h-full opacity-30">
+                {Array.from({ length: 12 * 8 }).map((_, i) => {
+                    const cx = (i % 8) * 12.5 + 6.25;
+                    const cy = Math.floor(i / 8) * 8.33 + 4.16;
+                    return <circle key={i} cx={cx} cy={cy} r="1" fill="#D1D5DB" />; // Light gray dots
+                })}
+            </svg>
+        </div>
+        
+        {/* Layout: We'll use a responsive grid to approximate the complex, asymmetrical layout. 
+            The image is laid out in a few distinct blocks:
+            - Large vertical image (Left)
+            - Two small masks (Bottom-Left)
+            - Central/Right block (Mix of 3 horizontal images and 2 lower figures)
+        */}
+
+        {/* Large Figure (col-span-3 on md/lg) */}
+        <div className="col-span-4 md:col-span-3 aspect-[3/4] overflow-hidden">
+          <img
+            src={images[0].src}
+            alt={images[0].alt}
+            className="w-full h-full rounded-md object-cover"
+          />
+        </div>
+
+        {/* Center Pillars (col-span-2 on md/lg, above the two right figures) */}
+        <div className="col-span-4 md:col-span-5 grid grid-cols-5 gap-4">
+          
+          {/* Center-Top: Pillars & Right Figures in one row */}
+          <div className="col-span-5 grid grid-cols-5 gap-4">
+              <div className="col-span-2 aspect-[4/3] overflow-hidden">
+                <img src={images[1].src} alt={images[1].alt} className="w-full rounded-md h-full object-cover" />
               </div>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900">{t.mission.title}</h2>
-            </div>
-            <p className="text-slate-600 leading-relaxed text-lg">{t.mission.description}</p>
+              <div className="col-span-3 aspect-[4/3] overflow-hidden">
+                <img src={images[2].src} alt={images[2].alt} className="w-full rounded-md h-full object-cover" />
+              </div>
+          </div>
+
+          {/* Center-Bottom: Green/Brown Figures */}
+          <div className="col-span-5 aspect-[16/7] overflow-hidden">
+             <img src={images[5].src} alt={images[5].alt} className="w-full rounded-md h-full object-cover" />
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mb-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {t.stats.map((stat, index) => {
-              const Icon = stat.icon
-              return (
-                <div
-                  key={index}
-                  className="bg-white border-2 border-slate-200 rounded-xl p-6 text-center space-y-3 hover:border-amber-300 hover:shadow-md transition-all"
-                >
-                  <div className="h-14 w-14 rounded-xl bg-slate-100 flex items-center justify-center mx-auto">
-                    <Icon className="h-7 w-7 text-amber-700" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-3xl font-bold text-slate-900">{stat.value}</p>
-                    <p className="text-sm text-slate-600 font-medium">{stat.label}</p>
-                  </div>
-                </div>
-              )
-            })}
+        {/* Small Masks (Bottom Left, below the large figure) */}
+        <div className="col-span-4 md:col-span-3 flex gap-4 mt-4 md:mt-0">
+          {/* Mask 1 (Left) - styled with a 'lightbox' look */}
+          <div className="flex-1 p-2 bg-white shadow-lg border border-gray-100 rounded">
+            <img
+              src={images[3].src}
+              alt={images[3].alt}
+              className="w-full h-full rounded-md object-contain"
+            />
+          </div>
+          {/* Mask 2 (Right) */}
+          <div className="flex-1 overflow-hidden">
+            <img
+              src={images[4].src}
+              alt={images[4].alt}
+              className="w-full h-full rounded-md object-cover"
+            />
           </div>
         </div>
 
-        {/* Values */}
-        <div className="mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">{t.values.title}</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {t.values.items.map((value, index) => {
-              const Icon = value.icon
-              return (
-                <div key={index} className="bg-white border-2 border-slate-200 rounded-xl p-6 space-y-3 hover:border-amber-300 hover:shadow-md transition-all">
-                  <div className="h-12 w-12 rounded-xl bg-slate-100 flex items-center justify-center">
-                    <Icon className="h-6 w-6 text-amber-700" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold text-slate-900">{value.title}</h3>
-                  <p className="text-slate-600">{value.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Timeline */}
-        <div className="mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">{t.timeline.title}</h2>
-          <div className="bg-white border-2 border-slate-200 rounded-2xl p-8 md:p-10 space-y-6">
-            {t.timeline.events.map((event, index) => (
-              <div key={index} className="flex gap-6 items-start group">
-                <div className="flex-shrink-0">
-                  <div className="h-12 w-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                    <Calendar className="h-6 w-6 text-amber-700" />
-                  </div>
-                </div>
-                <div className="flex-1 pt-1">
-                  <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                    <span className="text-2xl font-bold text-amber-700">{event.year}</span>
-                    <span className="text-slate-600 text-lg">{event.event}</span>
-                  </div>
-                  {index < t.timeline.events.length - 1 && (
-                    <div className="h-8 w-0.5 bg-slate-200 ml-6 mt-2" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Vision */}
-        <div className="mb-12">
-          <div className="bg-white border-2 border-slate-200 rounded-2xl p-8 md:p-10 space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-12 w-12 rounded-xl bg-slate-200 flex items-center justify-center">
-                <Sparkles className="h-6 w-6 text-amber-800" />
-              </div>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900">{t.vision.title}</h2>
-            </div>
-            <p className="text-slate-700 leading-relaxed text-lg">{t.vision.description}</p>
-          </div>
-        </div>
-
-        {/* Contact Info */}
-        <div className="bg-white border-2 border-slate-200 rounded-2xl p-8 md:p-10">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900 mb-6">{t.info.title}</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="flex gap-4 items-start">
-              <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <MapPin className="h-5 w-5 text-blue-700" />
-              </div>
-              <div>
-                <p className="font-medium text-slate-900 mb-1">Adresse</p>
-                <p className="text-slate-600">{t.info.address}</p>
-              </div>
-            </div>
-            
-            <div className="flex gap-4 items-start">
-              <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Clock className="h-5 w-5 text-green-700" />
-              </div>
-              <div>
-                <p className="font-medium text-slate-900 mb-1">Horaires</p>
-                <p className="text-slate-600">{t.info.hours}</p>
-                <p className="text-slate-500 text-sm mt-1">{t.info.closed}</p>
-              </div>
-            </div>
-            
-            <div className="flex gap-4 items-start">
-              <div className="h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-                <Phone className="h-5 w-5 text-purple-700" />
-              </div>
-              <div>
-                <p className="font-medium text-slate-900 mb-1">Téléphone</p>
-                <a href={`tel:${t.info.phone}`} className="text-slate-600 hover:text-amber-700 transition-colors">
-                  {t.info.phone}
-                </a>
-              </div>
-            </div>
-            
-            <div className="flex gap-4 items-start">
-              <div className="h-10 w-10 rounded-lg  flex items-center justify-center flex-shrink-0">
-                <Mail className="h-5 w-5 text-orange-700" />
-              </div>
-              <div>
-                <p className="font-medium text-slate-900 mb-1">Email</p>
-                <a href={`mailto:${t.info.email}`} className="text-slate-600 hover:text-amber-700 transition-colors">
-                  {t.info.email}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </main>
+   <ValuesSection />
+
+<HistoryAndCTASecion />
+    </div>
+    </div>
+    
   )
 }
+
+
+
+const HeroSection = () => {
+  return (
+    // The main container with the large, dark background that contains the image and text.
+   <div className="relative w-full z-0"> 
+      
+      {/* --- Background Image Container --- */}
+      <div 
+        className="relative bg-gray-900 bg-cover bg-center h-[500px]  flex items-center justify-center"
+        style={{ 
+          backgroundImage: `url('/hero.jpg')`, // ⬅️ Replace with your actual image path
+          // Apply a subtle dark overlay for better text readability
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          backgroundBlendMode: 'darken',
+        }}
+      >
+        
+        {/* --- Text Content Container --- */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 text-white">
+          
+          {/* Main Headline */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+            Une expérience à laquelle vous pouvez faire confiance
+          </h1>
+
+          {/* Subtitle/Description */}
+          <p className="text-lg sm:text-xl font-light max-w-2xl mx-auto mb-10">
+            De la numérisation 3D aux visites virtuelles immersives, nous utilisons les technologies les plus innovantes pour rendre le patrimoine africain accessible au monde entier.
+          </p>
+
+          {/* CTA Button */}
+          <a
+            href="#histoire" // Link to the 'Notre Histoire' section
+            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-lg text-orange-500 bg-white hover:bg-gray-100 transition duration-300 transform hover:scale-105"
+          >
+            Lisez notre histoire
+          </a>
+        </div>
+        
+
+
+        
+      </div>
+      
+    </div>
+  );
+};
+
